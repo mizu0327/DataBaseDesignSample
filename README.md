@@ -27,13 +27,14 @@ Things you may want to cover:
 
 |Column|Type|Options|
 |------|----|-------|
-|user_id|integer|null: false|
-|user_name|string|null: false|
 |email|string|null: false, add_index :users, unique: true|
+|password|string|null: false|
+|username|string|null: false|
 
 ### Association
-- has_many :groups
-- has_many :messages through :groups
+- has_many :messages
+- has_many :groups_users
+- has_many :groups, through: :groups_users
 
 
 ## groupsテーブル
@@ -42,11 +43,11 @@ Things you may want to cover:
 |------|----|-------|
 |group_id|integer|null: false|
 |group_name|string|null: false|
-|member_id|integer|add_index :groups, :member:id|
 
 ### Association
-- has_many :users
 - has_many :messages
+- has_many :groups_users
+- has_many :users, through: :groups_users
 
 
 ## groups_usersテーブル
@@ -69,8 +70,7 @@ Things you may want to cover:
 |image|string||
 |group_id|integer|null: false|
 |user_id|integer|null: false|
-|t|timestamp|null: false|
 
 ### Association
 - belongs_to :group
-- belongs_to :user, through :groups
+- belongs_to :user
